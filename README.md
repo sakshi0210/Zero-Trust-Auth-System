@@ -22,22 +22,54 @@ The system follows a three-step enforcement stack:
 2. **Device Identity Check:** Matches the incoming hardware fingerprint against the database.
 3. **Trust Scoring:** Subtracts points for "Contextual Drift" (IP or User-Agent changes). If the score falls below 40%, access is denied.
 
-## 📸 Demo Scenarios
-### The "Kill-Switch" Demonstration
-1. Login on **Chrome**. Dashboard access is granted (Trust Score: 100%).
- 
-   <img width="434" height="497" alt="Image" src="https://github.com/user-attachments/assets/9d0d5a23-3e41-41f4-9b9f-93fb1aed089f" />
+📸 Zero Trust Demo Scenarios
+This project demonstrates two critical pillars of Zero Trust architecture: Active Prevention and Real-time Revocation.
+
+Scenario 1: High-Trust Session Protection (Access Prevention)
+In this scenario, the system protects an active, established user from being displaced by a secondary login attempt from an unrecognized environment.
+
+Step 1: User logs in via Chrome. The system verifies the hardware fingerprint and establishes a 100% Trust Score.
+  <img width="434" height="497" alt="Image" src="https://github.com/user-attachments/assets/9d0d5a23-3e41-41f4-9b9f-93fb1aed089f" />
    
    <img width="1348" height="764" alt="Image" src="https://github.com/user-attachments/assets/03d2936a-0048-4875-91ff-88196c59d09a" />
    
 <img width="1869" height="819" alt="Image" src="https://github.com/user-attachments/assets/c8c454e0-16c6-4be9-9197-cb661f47ab19" />
 
-2. Attempt login on **Edge** with same credentials.
-   
+
+Step 2: An attempt is made to log in with the same credentials via Microsoft Edge.
 <img width="627" height="311" alt="Image" src="https://github.com/user-attachments/assets/d4211ea0-3c1c-41ab-a856-c27f79c4b477" />
 
-3. The server detects a fingerprint mismatch, revokes the Chrome session, and grants access to Edge.
-4. The Chrome "Heartbeat" detects the revocation within 3 seconds and triggers an automatic logout.
+
+Step 3: The backend identifies that the Chrome session is the "Primary Trusted Device." Because the Edge fingerprint does not match the active session, the system treats it as a potential hijacking attempt.
+
+<img width="1917" height="990" alt="Image" src="https://github.com/user-attachments/assets/22f148f3-0163-4d95-8911-b905d4abafe9" />
+
+Step 4: Outcome: The Edge login is rejected with a 401 Unauthorized error. The original Chrome session remains active and undisturbed.
+
+Scenario 2: Dynamic Session Revocation (The "Kill-Switch")
+This scenario demonstrates the system's ability to "hand off" trust to a new device while immediately securing the account by killing old sessions.
+
+Step 1: User logs in via Chrome and accesses the Dashboard.
+  <img width="434" height="497" alt="Image" src="https://github.com/user-attachments/assets/9d0d5a23-3e41-41f4-9b9f-93fb1aed089f" />
+   
+   <img width="1348" height="764" alt="Image" src="https://github.com/user-attachments/assets/03d2936a-0048-4875-91ff-88196c59d09a" />
+   
+<img width="1869" height="819" alt="Image" src="https://github.com/user-attachments/assets/c8c454e0-16c6-4be9-9197-cb661f47ab19" />
+
+
+Step 2: User then logs in via Microsoft Edge. In this logic branch, the system accepts the new login as the new "Authorized Device."
+<img width="627" height="311" alt="Image" src="https://github.com/user-attachments/assets/d4211ea0-3c1c-41ab-a856-c27f79c4b477" />
+
+<img width="1869" height="819" alt="Image" src="https://github.com/user-attachments/assets/c8c454e0-16c6-4be9-9197-cb661f47ab19" />
+
+
+
+Step 3: The backend updates the device_profiles table, effectively revoking the "Trust" previously granted to the Chrome fingerprint.
+
+Step 4: Outcome: Within 3 seconds, the Chrome "Heartbeat" (running on setInterval) checks the server and finds its session is no longer trusted.
+
+Step 5: The Chrome tab instantly displays "Access Denied" and redirects to the login page without a manual refresh.
+
 <img width="714" height="255" alt="Image" src="https://github.com/user-attachments/assets/0f36e20a-e523-40de-be6f-ffca925e67f1" />
 
 ## 🛠️ Installation & Setup
