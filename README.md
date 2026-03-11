@@ -25,9 +25,14 @@ The system follows a three-step enforcement stack:
 ## 📸 Demo Scenarios
 ### The "Kill-Switch" Demonstration
 1. Login on **Chrome**. Dashboard access is granted (Trust Score: 100%).
-2. Attempt login on **Edge** with same credentials.
-3. The server detects a fingerprint mismatch, revokes the Chrome session, and grants access to Edge.
-4. The Chrome "Heartbeat" detects the revocation within 3 seconds and triggers an automatic logout.
+   <img width="434" height="497" alt="Image" src="https://github.com/user-attachments/assets/9d0d5a23-3e41-41f4-9b9f-93fb1aed089f" />
+   <img width="1348" height="764" alt="Image" src="https://github.com/user-attachments/assets/03d2936a-0048-4875-91ff-88196c59d09a" />
+<img width="1869" height="819" alt="Image" src="https://github.com/user-attachments/assets/c8c454e0-16c6-4be9-9197-cb661f47ab19" />
+3. Attempt login on **Edge** with same credentials.
+<img width="627" height="311" alt="Image" src="https://github.com/user-attachments/assets/d4211ea0-3c1c-41ab-a856-c27f79c4b477" />
+4. The server detects a fingerprint mismatch, revokes the Chrome session, and grants access to Edge.
+5. The Chrome "Heartbeat" detects the revocation within 3 seconds and triggers an automatic logout.
+<img width="714" height="255" alt="Image" src="https://github.com/user-attachments/assets/0f36e20a-e523-40de-be6f-ffca925e67f1" />
 
 ## 🛠️ Installation & Setup
 
